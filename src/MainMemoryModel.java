@@ -4,13 +4,14 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * MainMemoryModel.java
- * 
+ * <p>
  * Data model for MainMemoryFrame
- * 
+ *
  * @author Claudio Bertoncello (<a href="mailto:cle@edu-al.unipmn.it"><i>cle@edu-al.unipmn.it</i></a>),
- *         U.P.O. Alessandria Italy
+ * U.P.O. Alessandria Italy
  */
-class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
+class MainMemoryModel extends AbstractTableModel implements Mic1Constants
+{
 
 	MainMemory mM = null;
 	int start = 0;
@@ -22,56 +23,66 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 
 	protected Vector data = new Vector(MEM_SHOWED);
 
-	public MainMemoryModel(MainMemory mM) {
+	public MainMemoryModel(MainMemory mM)
+	{
 		this.mM = mM;
 		for (int i = 0; i < MEM_SHOWED; i++)
 			data.add(new Object());
 	}
 
-	public int getColumnCount() {
+	public int getColumnCount()
+	{
 		return 4;
 	}
 
-	public int getRowCount() {
+	public int getRowCount()
+	{
 		return MEM_SHOWED;
 	}
 
-	public Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col)
+	{
 
-		try {
+		try
+		{
 			MemoryEntry e = (MemoryEntry) data.elementAt(row);
-			switch (col) {
-			case 0:
-				return e.getAddress();
-			case 1:
-				return e.getHexWord();
-			case 2:
-				return e.getMnemonic();
-			case 3:
-				return e.getLabel();
+			switch (col)
+			{
+				case 0:
+					return e.getAddress();
+				case 1:
+					return e.getHexWord();
+				case 2:
+					return e.getMnemonic();
+				case 3:
+					return e.getLabel();
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 		}
 
 		return null;
 
 	}
 
-	public String getColumnName(int col) {
-		switch (col) {
-		case 0:
-			return address;
-		case 1:
-			return hexWord;
-		case 2:
-			return mnemonic;
-		case 3:
-			return labels;
+	public String getColumnName(int col)
+	{
+		switch (col)
+		{
+			case 0:
+				return address;
+			case 1:
+				return hexWord;
+			case 2:
+				return mnemonic;
+			case 3:
+				return labels;
 		}
 		return "";
 	}
 
-	public boolean isCellEditable(int row, int col) {
+	public boolean isCellEditable(int row, int col)
+	{
 
 		if (col == 1)
 			return true;
@@ -79,7 +90,8 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 			return false;
 	}
 
-	private int thereIsSimbol(Vector simbol, int address) {
+	private int thereIsSimbol(Vector simbol, int address)
+	{
 		int i;
 		if (simbol != null)
 			for (i = 1; i < simbol.size(); ++i)
@@ -90,7 +102,8 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 	}
 
 	void setData(Vector hexInstruction, Vector mnemonic, Vector constant,
-			Vector labels, int start) {
+				 Vector labels, int start)
+	{
 		String hexWord = null;
 		String mnemonic_word;
 		String label_word;
@@ -98,7 +111,8 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 
 		this.start = start;
 
-		for (i = start; i < (start + MEM_SHOWED); i++) {
+		for (i = start; i < (start + MEM_SHOWED); i++)
+		{
 			hexWord = (String) hexInstruction.elementAt(i - start);
 
 			if (mnemonic != null && i < mnemonic.size())
@@ -123,7 +137,8 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 		fireTableDataChanged();
 	}
 
-	public void setData(int index, int address) {
+	public void setData(int index, int address)
+	{
 
 		String hex_word = MyByte.toHexString(mM.getByte(address));
 		MemoryEntry e = (MemoryEntry) data.elementAt(index);
@@ -132,11 +147,14 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 		fireTableCellUpdated(index, 1);
 	}
 
-	public void setValueAt(Object value, int row, int col) {
+	public void setValueAt(Object value, int row, int col)
+	{
 		// Only the column one is editable
 
-		if (col == 1) {
-			try {
+		if (col == 1)
+		{
+			try
+			{
 				/* controlla se il byte e' corretto */
 				byte b = MyByte.parseHexByte((String) value);
 				/* aggiorna il byte di memoria (visualizzata) */
@@ -145,10 +163,12 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 				e.setHexWord((String) value);
 				data.setElementAt(e, row);
 				fireTableCellUpdated(row, col);
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException e)
+			{
 				new ErrorDialog("error format",
 						"The string is not a representation of a number in base 16");
-			} catch (OutRangeNumberException e1) {
+			} catch (OutRangeNumberException e1)
+			{
 				new ErrorDialog("error format",
 						"The maximum length of the string must be 2");
 			}
@@ -157,49 +177,58 @@ class MainMemoryModel extends AbstractTableModel implements Mic1Constants {
 
 }
 
-class MemoryEntry {
+class MemoryEntry
+{
 
 	private String address = null;
 	private String hexWord = null;
 	private String mnemonic = null;
 	private String label = null;
 
-	public MemoryEntry(int address, String hexWord) {
+	public MemoryEntry(int address, String hexWord)
+	{
 		this.address = Integer.toHexString(address);
 		this.hexWord = hexWord;
 	}
 
-	public MemoryEntry(int address, String hexWord, String mnemonic) {
+	public MemoryEntry(int address, String hexWord, String mnemonic)
+	{
 		this.address = Integer.toHexString(address);
 		this.hexWord = hexWord;
 		this.mnemonic = mnemonic;
 	}
 
 	public MemoryEntry(int address, String hexWord, String mnemonic,
-			String label) {
+					   String label)
+	{
 		this.address = Integer.toHexString(address);
 		this.hexWord = hexWord;
 		this.mnemonic = mnemonic;
 		this.label = label;
 	}
 
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
-	public String getHexWord() {
+	public String getHexWord()
+	{
 		return hexWord;
 	}
 
-	public String getMnemonic() {
+	public String getMnemonic()
+	{
 		return mnemonic;
 	}
 
-	public String getLabel() {
+	public String getLabel()
+	{
 		return label;
 	}
 
-	public void setHexWord(String hexWord) {
+	public void setHexWord(String hexWord)
+	{
 		this.hexWord = hexWord;
 	}
 

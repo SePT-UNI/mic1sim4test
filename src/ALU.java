@@ -1,41 +1,42 @@
-/* 
+/*
  *  ALU.java
  *
- *  mic1 microarchitecture simulator 
- *  Copyright (C) 1999, Prentice-Hall, Inc. 
- * 
- *  This program is free software; you can redistribute it and/or modify 
- *  it under the terms of the GNU General Public License as published by 
- *  the Free Software Foundation; either version 2 of the License, or 
- *  (at your option) any later version. 
- * 
- *  This program is distributed in the hope that it will be useful, but 
- *  WITHOUT ANY WARRANTY; without even the implied warranty of 
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General 
- *  Public License for more details. 
- * 
- *  You should have received a copy of the GNU General Public License along with 
- *  this program; if not, write to: 
- * 
- *    Free Software Foundation, Inc. 
- *    59 Temple Place - Suite 330 
- *    Boston, MA 02111-1307, USA. 
- * 
- *  A copy of the GPL is available online the GNU web site: 
- * 
+ *  mic1 microarchitecture simulator
+ *  Copyright (C) 1999, Prentice-Hall, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ *  Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program; if not, write to:
+ *
+ *    Free Software Foundation, Inc.
+ *    59 Temple Place - Suite 330
+ *    Boston, MA 02111-1307, USA.
+ *
+ *  A copy of the GPL is available online the GNU web site:
+ *
  *    http://www.gnu.org/copyleft/gpl.html
- * 
+ *
  */
 
 import java.awt.TextField;
 
 /**
  * Arithmetic logic unit.
- * 
+ *
  * @author Dan Stone (<a href="mailto:dans@ontko.com"><i>dans@ontko.com</i></a>),
- *         Ray Ontko & Co, Richmond, Indiana, US
+ * Ray Ontko & Co, Richmond, Indiana, US
  */
-public class ALU extends TextField {
+public class ALU extends TextField
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +47,8 @@ public class ALU extends TextField {
 	int result;
 
 	public ALU(Bus a_bus, Bus b_bus, Bus out, ControlLine alu_cl,
-			ControlLine n_cl, ControlLine z_cl) {
+			   ControlLine n_cl, ControlLine z_cl)
+	{
 		super(30);
 		this.a_bus = a_bus;
 		this.b_bus = b_bus;
@@ -57,7 +59,8 @@ public class ALU extends TextField {
 		setEditable(false);
 	}
 
-	public void poke() {
+	public void poke()
+	{
 		// System.out.print("ALU poked: ");
 
 		int a = 0;
@@ -70,12 +73,14 @@ public class ALU extends TextField {
 			b = b_bus.getValue();
 		if (value[MIR.INVA])
 			a = ~a;
-		if (value[MIR.F0]) {
+		if (value[MIR.F0])
+		{
 			if (value[MIR.F1])
 				result = a + b;
 			else
 				result = ~b;
-		} else {
+		} else
+		{
 			if (value[MIR.F1])
 				result = (a | b);
 			else
@@ -88,13 +93,14 @@ public class ALU extends TextField {
 		if (!mic1sim.run)
 			setText(toString());
 		out.setValue(result);
-		boolean z_ar[] = { result == 0 };
-		boolean n_ar[] = { result < 0 };
+		boolean z_ar[] = {result == 0};
+		boolean n_ar[] = {result < 0};
 		z_cl.setValue(z_ar);
 		n_cl.setValue(n_ar);
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		boolean value[] = alu_cl.getValue();
 		String s = new String();
 		if (value[MIR.INVA])
@@ -103,12 +109,14 @@ public class ALU extends TextField {
 			s += "A ";
 		else
 			s += "0 ";
-		if (value[MIR.F0]) {
+		if (value[MIR.F0])
+		{
 			if (value[MIR.F1])
 				s += "+ ";
 			else
 				s = "NOT ";
-		} else {
+		} else
+		{
 			if (value[MIR.F1])
 				s += "OR ";
 			else

@@ -1,3 +1,4 @@
- class OutRangeNumberException extends Exception{
+class OutRangeNumberException extends Exception
+{
 
 }

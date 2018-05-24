@@ -1,54 +1,66 @@
 import java.util.Vector;
 
-public class Instruction {
+public class Instruction
+{
 
 	private int opcode;
 	private String mnemonic = null;
 	private Vector<ParamType> paramTypes;
 
-	public Instruction(int opcode, String mnemonic) {
+	public Instruction(int opcode, String mnemonic)
+	{
 		this(opcode, mnemonic, new Vector<ParamType>());
 	}
 
-	public Instruction(int opcode, String mnemonic, Vector<ParamType> paramTypes) {
+	public Instruction(int opcode, String mnemonic, Vector<ParamType> paramTypes)
+	{
 		this.opcode = opcode;
 		this.mnemonic = mnemonic;
 		this.paramTypes = paramTypes;
 	}
-	
-	public void setOpcode(int opcode) {
+
+	public void setOpcode(int opcode)
+	{
 		this.opcode = opcode;
 	}
 
-	public void setMnemonic(String mnemonic) {
+	public void setMnemonic(String mnemonic)
+	{
 		this.mnemonic = mnemonic;
 	}
 
-	public int getOpcode() {
+	public int getOpcode()
+	{
 		return opcode;
 	}
 
-	public String getMnemonic() {
+	public String getMnemonic()
+	{
 		return mnemonic;
 	}
 
-	public void addParamTypes(ParamType paramType) {
+	public void addParamTypes(ParamType paramType)
+	{
 		paramTypes.add(paramType);
 	}
-	
-	public void setParamTypes(Vector<ParamType> paramTypes) {
+
+	public void setParamTypes(Vector<ParamType> paramTypes)
+	{
 		this.paramTypes = paramTypes;
 	}
-	
-	public ParamType getParamType(int index) {
+
+	public ParamType getParamType(int index)
+	{
 		return paramTypes.elementAt(index);
 	}
-	
-	public Vector<ParamType> getParamTypes() {
+
+	public Vector<ParamType> getParamTypes()
+	{
 		return paramTypes;
 	}
-	
-	public int getParamNumber() {
+
+	public int getParamNumber()
+	{
 		return paramTypes.size();
 	}
 
@@ -100,6 +112,6 @@ public class Instruction {
 //	public void setType(int type) {
 //		this.type = type;
 //	}
-	
+
 }
 

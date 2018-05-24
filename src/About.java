@@ -4,13 +4,15 @@ import java.awt.Label;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class About extends Frame implements WindowListener {
+public class About extends Frame implements WindowListener
+{
 
 	private static final long serialVersionUID = 1L;
 
 	boolean on = true;
 
-	About() {
+	About()
+	{
 		super("About");
 		this.setSize(500, 500);
 		String infos[] = {
@@ -37,11 +39,12 @@ public class About extends Frame implements WindowListener {
 				"  http://www.gnu.org/copyleft/gpl.html", "", "Modified by ",
 				"  1999 Claudio Bertoncello", "  2001 Simone Alciati",
 				"  2006 Silvio Colombaro ( silvio.colombaro@email.it )",
-				"  2008 Francesco Poli" };
+				"  2008 Francesco Poli"};
 
 		Label l;
 		this.setLayout(new GridLayout(infos.length, 1));
-		for (int i = 0; i < infos.length; i++) {
+		for (int i = 0; i < infos.length; i++)
+		{
 			l = new Label(infos[i]);
 			this.add(l);
 		}
@@ -50,39 +53,47 @@ public class About extends Frame implements WindowListener {
 		this.setVisible(true);
 	}
 
-	public boolean isOn() {
+	public boolean isOn()
+	{
 		return on;
 	}
 
-	public void windowActivated(WindowEvent arg0) {
+	public void windowActivated(WindowEvent arg0)
+	{
 
 	}
 
-	public void windowClosed(WindowEvent arg0) {
+	public void windowClosed(WindowEvent arg0)
+	{
 		// on=false;
 		// this.dispose();
 
 	}
 
-	public void windowClosing(WindowEvent arg0) {
+	public void windowClosing(WindowEvent arg0)
+	{
 		on = false;
 		this.dispose();
 
 	}
 
-	public void windowDeactivated(WindowEvent arg0) {
+	public void windowDeactivated(WindowEvent arg0)
+	{
 
 	}
 
-	public void windowDeiconified(WindowEvent arg0) {
+	public void windowDeiconified(WindowEvent arg0)
+	{
 
 	}
 
-	public void windowIconified(WindowEvent arg0) {
+	public void windowIconified(WindowEvent arg0)
+	{
 
 	}
 
-	public void windowOpened(WindowEvent arg0) {
+	public void windowOpened(WindowEvent arg0)
+	{
 
 	}
 }

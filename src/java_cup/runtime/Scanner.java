@@ -5,8 +5,8 @@ package java_cup.runtime;
  * implementation of <code>lr_parser.scan()</code>.  Integration
  * of scanners implementing <code>Scanner</code> is facilitated.
  *
- * @version last updated 23-Jul-1999
  * @author David MacMahon <davidm@smartsc.com>
+ * @version last updated 23-Jul-1999
  */
 
 /* *************************************************
@@ -19,7 +19,10 @@ package java_cup.runtime;
   <code>new Symbol(lr_parser.EOF_sym())</code> or
   <code>null</code>.
  ***************************************************/
-public interface Scanner {
-    /** Return the next token, or <code>null</code> on end-of-file. */
-    public Symbol next_token() throws java.lang.Exception;
+public interface Scanner
+{
+	/**
+	 * Return the next token, or <code>null</code> on end-of-file.
+	 */
+	public Symbol next_token() throws java.lang.Exception;
 }

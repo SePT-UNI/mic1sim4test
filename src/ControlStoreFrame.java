@@ -1,17 +1,16 @@
 /**
  * ControlStoreFrame.java
- *
+ * <p>
  * Window that displays the control store.
  * Consists of:
- *  - a table with 3 coloumn:
- *    	- address of word (in base 16)
- *	- mnemonic code
- *	- word of memory (in base 16)
+ * - a table with 3 coloumn:
+ * - address of word (in base 16)
+ * - mnemonic code
+ * - word of memory (in base 16)
  *
- * @author 
- *   Claudio Bertoncello (<a href="mailto:cle@edu-al.unipmn.it"><i>cle@edu-al.unipmn.it</i></a>),
- *   U.P.O.
- *   Alessandria Italy
+ * @author Claudio Bertoncello (<a href="mailto:cle@edu-al.unipmn.it"><i>cle@edu-al.unipmn.it</i></a>),
+ * U.P.O.
+ * Alessandria Italy
  */
 
 import java.awt.BorderLayout;
@@ -29,7 +28,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ControlStoreFrame extends JFrame implements TableModelListener,
-		Mic1Constants {
+		Mic1Constants
+{
 
 	ControlStoreModel model = null;
 	ControlStore cs = null;
@@ -39,14 +39,16 @@ public class ControlStoreFrame extends JFrame implements TableModelListener,
 	/* select memory word at address MPC */
 	int old_mpc = -1;
 
-	public ControlStoreFrame(ControlStore cs) {
+	public ControlStoreFrame(ControlStore cs)
+	{
 
 		super("Control Store");
 		this.cs = cs;
 
 		model = new ControlStoreModel();
 
-		for (int i = 0; i < INSTR_COUNT; i++) {
+		for (int i = 0; i < INSTR_COUNT; i++)
+		{
 			hexInstruction.add(Long.toHexString(cs.getInstruction(i).toHex()).toUpperCase());
 		}
 		model.setData(cs, hexInstruction);
@@ -62,8 +64,10 @@ public class ControlStoreFrame extends JFrame implements TableModelListener,
 		// Add the scroll pane to this window.
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
 				dispose();
 				mic1sim.control_memory = false;
 			}
@@ -75,36 +79,42 @@ public class ControlStoreFrame extends JFrame implements TableModelListener,
 		table.removeRowSelectionInterval(0, 0);
 	}
 
-	public void tableChanged(TableModelEvent e) {
+	public void tableChanged(TableModelEvent e)
+	{
 
 		int row = e.getFirstRow();
 		int column = e.getColumn();
 		String columnName = model.getColumnName(column);
 		String value = (String) model.getValueAt(row, column);
 
-		try {
+		try
+		{
 			long l = Long.parseLong(value, 16);
 			Mic1Instruction i = new Mic1Instruction();
 			i.read(l);
 			cs.setInstruction(row, i);
 			model.updateEntry(row, i.toString());
-		} catch (NumberFormatException e1) {
+		} catch (NumberFormatException e1)
+		{
 		}
 	}
 
-	public void selectMpc(int mpc) {
+	public void selectMpc(int mpc)
+	{
 
 		table.setRowSelectionInterval(mpc, mpc);
 		old_mpc = mpc;
 
 	}
 
-	public void removeSelectMpc() {
+	public void removeSelectMpc()
+	{
 		if (old_mpc >= 0)
 			table.removeRowSelectionInterval(old_mpc, old_mpc);
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		old_mpc = -1;
 	}
 

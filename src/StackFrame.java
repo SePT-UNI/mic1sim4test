@@ -1,12 +1,11 @@
 /**
  * StackFrame.java
- *
+ * <p>
  * Window that displays the Stack (Memory).
  *
- * @author 
- *   Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
- *   U.P.O.
- *   Alessandria Italy
+ * @author Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
+ * U.P.O.
+ * Alessandria Italy
  */
 
 import java.awt.BorderLayout;
@@ -32,12 +31,13 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 public class StackFrame extends JFrame implements TableModelListener,
-		ActionListener, Mic1Constants {
+		ActionListener, Mic1Constants
+{
 
 	StackModel model = null;
 	MainMemory mM = null;
 	private Vector<String> Contain = new Vector<String>(MEM_SHOWED);
-//	private Vector constant = null;
+	//	private Vector constant = null;
 	JButton okButton = null;
 	JTextField start = null;
 	JTable table = null;
@@ -50,7 +50,8 @@ public class StackFrame extends JFrame implements TableModelListener,
 	int end = begin + MEM_SHOWED;
 	String N = "";
 
-	public StackFrame(MainMemory mM, int P[][]) {
+	public StackFrame(MainMemory mM, int P[][])
+	{
 
 		super("Main Memory (4 byte words)");
 		this.mM = mM;
@@ -59,9 +60,11 @@ public class StackFrame extends JFrame implements TableModelListener,
 		String tempS = "";
 		String cumul = "";
 
-		for (int i = begin; i < begin + MEM_SHOWED; i++) {
+		for (int i = begin; i < begin + MEM_SHOWED; i++)
+		{
 			cumul = "";
-			for (int j = i * 4; j < i * 4 + 4; j++) {
+			for (int j = i * 4; j < i * 4 + 4; j++)
+			{
 				tempS = MyByte.toHexString(mM.getByte(j));
 				if (tempS.length() == 1)
 					tempS = "0" + tempS;
@@ -108,8 +111,10 @@ public class StackFrame extends JFrame implements TableModelListener,
 		// Add the scroll pane to this window.
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		getContentPane().add(p4, BorderLayout.SOUTH);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
 				dispose();
 				mic1sim.stack = false;
 			}
@@ -120,27 +125,33 @@ public class StackFrame extends JFrame implements TableModelListener,
 		table.removeRowSelectionInterval(0, 0);
 	}
 
-	public void tableChanged(TableModelEvent e) {
+	public void tableChanged(TableModelEvent e)
+	{
 	}
 
-	public void reset() {
+	public void reset()
+	{
 	}
 
-	public void update(int address) {
-		if ((begin <= address) && (end >= address)) {
+	public void update(int address)
+	{
+		if ((begin <= address) && (end >= address))
+		{
 			int index = address - begin;
 			model.setData(index, address);
 		}
 		mic1sim.update_Stack = false;
 	}
 
-	public void updatePointer(int Pointers[][]) {
+	public void updatePointer(int Pointers[][])
+	{
 
 		Vector<String> P = new Vector<String>(MEM_SHOWED);
 
 		Local_Pointers = Pointers;
 
-		for (int i = 0; i < MEM_SHOWED; i++) {
+		for (int i = 0; i < MEM_SHOWED; i++)
+		{
 			if (Pointers[0][i + begin] != 0)
 				N = "#" + Integer.toString(Pointers[0][i + begin]);
 			else
@@ -151,32 +162,38 @@ public class StackFrame extends JFrame implements TableModelListener,
 						&& (Pointers[2][i + begin] == 0)
 						&& (Pointers[3][i + begin] == 0))
 					P.add("<-- CPP, SP " + N + ", LV " + N);
-				else {
+				else
+				{
 					if ((Pointers[1][i + begin] == 0)
 							&& (Pointers[2][i + begin] == 0)
 							&& (Pointers[3][i + begin] != 0))
 						P.add("<-- SP " + N + ", LV " + N);
-					else {
+					else
+					{
 						if ((Pointers[3][i + begin] == 0)
 								&& (Pointers[2][i + begin] == 0)
 								&& (Pointers[1][i + begin] != 0))
 							P.add("<-- CPP, LV " + N);
-						else {
+						else
+						{
 							if ((Pointers[1][i + begin] == 0)
 									&& (Pointers[3][i + begin] == 0)
 									&& (Pointers[2][i + begin] != 0))
 								P.add("<-- CPP, SP " + N);
-							else {
+							else
+							{
 								if ((Pointers[1][i + begin] == 0)
 										&& (Pointers[3][i + begin] != 0)
 										&& (Pointers[2][i + begin] != 0))
 									P.add("<-- SP " + N);
-								else {
+								else
+								{
 									if ((Pointers[2][i + begin] == 0)
 											&& (Pointers[3][i + begin] != 0)
 											&& (Pointers[1][i + begin] != 0))
 										P.add("<-- LV " + N);
-									else {
+									else
+									{
 										if ((Pointers[3][i + begin] == 0)
 												&& (Pointers[1][i + begin] != 0)
 												&& (Pointers[2][i + begin] != 0))
@@ -193,26 +210,32 @@ public class StackFrame extends JFrame implements TableModelListener,
 		}
 		// qui si passa dall'array rappresentante tutta l'area di Stack ad un
 		// vector che rappresenta solo l'area visualizzata.
-		if (Pointers[4][0] == 1) {
+		if (Pointers[4][0] == 1)
+		{
 			model.setPointer(P);
 		}
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == "ok") {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getActionCommand() == "ok")
+		{
 
-			try {
+			try
+			{
 				temp = Integer.parseInt(start.getText(), 16);
 				begin_old = begin;
 				begin = temp;
 				if (begin >= MEM_MAX_S - MEM_SHOWED)
 					throw new OutRangeNumberException();
-			} catch (NumberFormatException e1) {
+			} catch (NumberFormatException e1)
+			{
 				JOptionPane.showMessageDialog(this,
 						"The string is not a valid representation of a number",
 						"Error format", 2);
 				begin = Mic1Constants.SP_ORIGINAL;
-			} catch (OutRangeNumberException e2) {
+			} catch (OutRangeNumberException e2)
+			{
 				JOptionPane.showMessageDialog(this,
 						"The start address must be less than oxfdff",
 						"Error range", 2);
@@ -225,9 +248,11 @@ public class StackFrame extends JFrame implements TableModelListener,
 			String tempS = "";
 
 			Contain.removeAllElements();
-			for (int i = begin; i < end; i++) {
+			for (int i = begin; i < end; i++)
+			{
 				cumul = "";
-				for (int j = i * 4; j < (i * 4) + 4; j++) {
+				for (int j = i * 4; j < (i * 4) + 4; j++)
+				{
 					tempS = MyByte.toHexString(mM.getByte(j));
 					if (tempS.length() == 1)
 						tempS = "0" + tempS;

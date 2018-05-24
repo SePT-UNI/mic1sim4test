@@ -1,5 +1,6 @@
 
-public class SavedLoader implements Mic1Constants {
+public class SavedLoader implements Mic1Constants
+{
 
 //  //BufferedInputStream in = null; //Tipo creato dall'autore...
 //  String filename;

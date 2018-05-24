@@ -1,12 +1,11 @@
 /**
  * StackModel.java
- *
+ * <p>
  * Data model for StackFrame
  *
- * @author 
- *   Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
- *   U.P.O.
- *   Alessandria Italy
+ * @author Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
+ * U.P.O.
+ * Alessandria Italy
  */
 
 import java.util.Vector;
@@ -14,7 +13,8 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-class StackModel extends AbstractTableModel implements Mic1Constants {
+class StackModel extends AbstractTableModel implements Mic1Constants
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,53 +28,63 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 
 	protected Vector data = new Vector(MEM_SHOWED);
 
-	public StackModel(MainMemory mM, StackFrame sF) {
+	public StackModel(MainMemory mM, StackFrame sF)
+	{
 		this.mM = mM;
 		this.sF = sF;
 		for (int i = 0; i < MEM_SHOWED; i++)
 			data.add(new Object());
 	}
 
-	public int getColumnCount() {
+	public int getColumnCount()
+	{
 		return 3;
 	}
 
-	public int getRowCount() {
+	public int getRowCount()
+	{
 		return MEM_SHOWED;
 	}
 
-	public Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col)
+	{
 
-		try {
+		try
+		{
 			MemoryEntryL e = (MemoryEntryL) data.elementAt(row);
-			switch (col) {
-			case 0:
-				return e.getAddress();
-			case 1:
-				return e.getHexWord();
-			case 2:
-				return e.getPointer();
+			switch (col)
+			{
+				case 0:
+					return e.getAddress();
+				case 1:
+					return e.getHexWord();
+				case 2:
+					return e.getPointer();
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 		}
 
 		return null;
 
 	}
 
-	public String getColumnName(int col) {
-		switch (col) {
-		case 0:
-			return address;
-		case 1:
-			return hexWord;
-		case 2:
-			return pointer;
+	public String getColumnName(int col)
+	{
+		switch (col)
+		{
+			case 0:
+				return address;
+			case 1:
+				return hexWord;
+			case 2:
+				return pointer;
 		}
 		return "";
 	}
 
-	public boolean isCellEditable(int row, int col) {
+	public boolean isCellEditable(int row, int col)
+	{
 
 		if (col == 1)
 			return true;
@@ -82,7 +92,8 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 			return false;
 	}
 
-	private int thereIsSimbol(Vector simbol, int address) {
+	private int thereIsSimbol(Vector simbol, int address)
+	{
 		int i;
 
 		for (i = 0; i < simbol.size(); i++)
@@ -91,12 +102,14 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 		return -1;
 	}
 
-	void setData(Vector Contain, int start) {
+	void setData(Vector Contain, int start)
+	{
 		String hexWord = null;
 		int i, index;
 
 		this.start = start;
-		for (i = 0 + start; i < start + MEM_SHOWED; i++) {
+		for (i = 0 + start; i < start + MEM_SHOWED; i++)
+		{
 			hexWord = (String) Contain.elementAt(i - start);
 			MemoryEntryL e = new MemoryEntryL(i, hexWord, "");
 			data.set(i - start, e);
@@ -106,11 +119,13 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 		fireTableDataChanged();
 	}
 
-	public void setData(int index, int address) {
+	public void setData(int index, int address)
+	{
 
 		String tempS = "";
 		String cumul = "";
-		for (int j = address * 4; j < (address * 4) + 4; j++) {
+		for (int j = address * 4; j < (address * 4) + 4; j++)
+		{
 			tempS = MyByte.toHexString(mM.getByte(j));
 			if (tempS.length() == 1)
 				tempS = "0" + tempS;
@@ -122,12 +137,14 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 		fireTableCellUpdated(index, 1);
 	}
 
-	public void setPointer(Vector Contain_Pointers) {
+	public void setPointer(Vector Contain_Pointers)
+	{
 
 		String pointer = null;
 		int i, index;
 
-		for (i = 0; i < MEM_SHOWED; i++) {
+		for (i = 0; i < MEM_SHOWED; i++)
+		{
 			pointer = (String) Contain_Pointers.elementAt(i);
 			MemoryEntryL e = (MemoryEntryL) data.elementAt(i);
 			e.setPointer(pointer);
@@ -138,11 +155,14 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 		fireTableDataChanged();
 	}
 
-	public void setValueAt(Object value, int row, int col) {
+	public void setValueAt(Object value, int row, int col)
+	{
 		// Only the column one is editable
 
-		if (col == 1) {
-			try {
+		if (col == 1)
+		{
+			try
+			{
 
 				/* controlla se il byte e' corretto */
 				String tmpS = (String) value;
@@ -158,7 +178,8 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 					a = Integer.parseInt("" + value_char[i], 16);
 				int addr = row + start;
 				int cont = 0;
-				for (int i = 0; i < 8; i += 2) {
+				for (int i = 0; i < 8; i += 2)
+				{
 					byte b = MyByte.parseHexByte(((String) value).substring(i,
 							i + 2));
 					/* aggiorna la parola di memoria (visualizzata) */
@@ -170,13 +191,15 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 				data.setElementAt(e, row);
 				fireTableCellUpdated(row, col);
 
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException e)
+			{
 				JOptionPane
 						.showMessageDialog(
 								sF,
 								"The string is not a valid representation of a number in base 16",
 								"Error format", 2);
-			} catch (OutRangeNumberException e1) {
+			} catch (OutRangeNumberException e1)
+			{
 				JOptionPane.showMessageDialog(sF,
 						"The maximum length of the string must be 8",
 						"Error lenght", 2);
@@ -186,35 +209,42 @@ class StackModel extends AbstractTableModel implements Mic1Constants {
 
 }
 
-class MemoryEntryL {
+class MemoryEntryL
+{
 
 	private String address = null;
 	private String hexWord = null;
 	private String pointer = null;
 
-	public MemoryEntryL(int address, String hexWord, String pointer) {
+	public MemoryEntryL(int address, String hexWord, String pointer)
+	{
 		this.address = Integer.toHexString(address);
 		this.hexWord = hexWord;
 		this.pointer = pointer;
 	}
 
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
-	public String getPointer() {
+	public String getPointer()
+	{
 		return pointer;
 	}
 
-	public String getHexWord() {
+	public String getHexWord()
+	{
 		return hexWord;
 	}
 
-	public void setHexWord(String hexWord) {
+	public void setHexWord(String hexWord)
+	{
 		this.hexWord = hexWord;
 	}
 
-	public void setPointer(String pointer) {
+	public void setPointer(String pointer)
+	{
 		this.pointer = pointer;
 	}
 

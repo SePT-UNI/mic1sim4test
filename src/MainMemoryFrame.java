@@ -1,26 +1,25 @@
 
 /**
  * MainMemoryFrame.java
- *
+ * <p>
  * Window that displays the main memory.
  * Consists of:
- *  - a table with 4 coloumn:
- *    	- address of word (in base 16)
- *	- word of memory (in base 16)
- *	- mnemonic code
- *	- label
- *  - a text field for the first address of memory that to be displayed
- *  - a button for load the portion of memory
+ * - a table with 4 coloumn:
+ * - address of word (in base 16)
+ * - word of memory (in base 16)
+ * - mnemonic code
+ * - label
+ * - a text field for the first address of memory that to be displayed
+ * - a button for load the portion of memory
  *
- * @author 
- *   Claudio Bertoncello (<a href="mailto:cle@edu-al.unipmn.it"><i>cle@edu-al.unipmn.it</i></a>),
- *   U.P.O.
- *   Alessandria Italy
- *
+ * @author Claudio Bertoncello (<a href="mailto:cle@edu-al.unipmn.it"><i>cle@edu-al.unipmn.it</i></a>),
+ * U.P.O.
+ * Alessandria Italy
+ * <p>
  * updated by
- *   Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
- *   U.P.O.
- *   Alessandria Italy
+ * Simone Alciati (e-mail: alciati@edu-al.unipmn.it),
+ * U.P.O.
+ * Alessandria Italy
  */
 
 import java.awt.BorderLayout;
@@ -47,7 +46,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 public class MainMemoryFrame extends JFrame implements TableModelListener,
-		ActionListener, Mic1Constants {
+		ActionListener, Mic1Constants
+{
 
 	MainMemoryModel model = null;
 	MainMemory mM = null;
@@ -71,7 +71,8 @@ public class MainMemoryFrame extends JFrame implements TableModelListener,
 	boolean Breakpointed = false;
 
 	public MainMemoryFrame(MainMemory mM, Vector mnemonic, Vector constant,
-			Vector labels, Vector pippo) {
+						   Vector labels, Vector pippo)
+	{
 
 		super("Method Area");
 		this.mM = mM;
@@ -121,8 +122,10 @@ public class MainMemoryFrame extends JFrame implements TableModelListener,
 		// Add the scroll pane to this window.
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		getContentPane().add(p4, BorderLayout.SOUTH);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
 				dispose();
 				mic1sim.memory = false;
 			}
@@ -134,14 +137,17 @@ public class MainMemoryFrame extends JFrame implements TableModelListener,
 
 	}
 
-	public void tableChanged(TableModelEvent e) {
+	public void tableChanged(TableModelEvent e)
+	{
 
 	}
 
-	public void selectBreakpoint(int BC) {
+	public void selectBreakpoint(int BC)
+	{
 
 		int index = BC;
-		if ((begin <= BC) && (end >= BC)) {
+		if ((begin <= BC) && (end >= BC))
+		{
 			index = BC - begin;
 			table.setRowSelectionInterval(index, index);
 
@@ -149,10 +155,12 @@ public class MainMemoryFrame extends JFrame implements TableModelListener,
 		}
 	}
 
-	public void selectPc(int pc) {
+	public void selectPc(int pc)
+	{
 
 		int index = pc;
-		if ((begin <= pc) && (end >= pc)) {
+		if ((begin <= pc) && (end >= pc))
+		{
 			index = pc - begin;
 			table.setRowSelectionInterval(index, index);
 			table.setGridColor(p);
@@ -163,50 +171,61 @@ public class MainMemoryFrame extends JFrame implements TableModelListener,
 		old_index = index;
 	}
 
-	public void removeSelectPc() {
-		if (selected) {
+	public void removeSelectPc()
+	{
+		if (selected)
+		{
 			table.removeRowSelectionInterval(old_index, old_index);
 			selected = false;
 		}
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		removeSelectPc();
 		old_index = -1;
 		old_pc = -1;
 	}
 
-	public void update(int address) {
+	public void update(int address)
+	{
 
 		int i = 0;
 
-		if ((begin <= address) && (end + 4 >= address)) {
+		if ((begin <= address) && (end + 4 >= address))
+		{
 			int index = address - begin;
-			do {
+			do
+			{
 				model.setData(index, address + i);
 				++i;
 				++index;
-			} while ( (i < 4) && (index <= end + 4));
+			} while ((i < 4) && (index <= end + 4));
 		}
 
 		mic1sim.update = false;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == "ok") {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getActionCommand() == "ok")
+		{
 
-			try {
+			try
+			{
 				begin = Integer.parseInt(start.getText(), 16);
 				if (begin >= MEM_MAX - MEM_SHOWED)
 					throw new OutRangeNumberException();
-			} catch (NumberFormatException e1) {
+			} catch (NumberFormatException e1)
+			{
 				JOptionPane.showMessageDialog(this,
 						"The string is not a valid representation of a number",
 						"Error format", 2);
 				// new ErrorDialog("error format","The string is not a valid
 				// representation of a number");
 				begin = 0;
-			} catch (OutRangeNumberException e2) {
+			} catch (OutRangeNumberException e2)
+			{
 				JOptionPane.showMessageDialog(this,
 						"The start address must be less than 0x3fdff",
 						"Error range", 2);

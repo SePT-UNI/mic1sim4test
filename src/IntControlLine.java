@@ -1,15 +1,19 @@
-public class IntControlLine {
+public class IntControlLine
+{
 
-  private int value;
+	private int value;
 
-  public IntControlLine() {
-  }
+	public IntControlLine()
+	{
+	}
 
-  public void setValue(int value) {
-    this.value = value;
-  }
+	public void setValue(int value)
+	{
+		this.value = value;
+	}
 
-  public int getValue() {
-    return value;
-  }
+	public int getValue()
+	{
+		return value;
+	}
 }
