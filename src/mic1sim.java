@@ -28,6 +28,8 @@
  *
  */
 
+import it.sept.HumanSimulator;
+
 import java.awt.Button;
 import java.awt.Component;
 import java.awt.Event;
@@ -500,6 +502,10 @@ public class mic1sim extends Frame implements Mic1Constants
 			if (debug)
 				DebugFrame.text.setText("");
 			stdout.setText("");
+
+			HumanSimulator.clearReadBuffer();
+			HumanSimulator.key_buffer.removeAllElements();
+
 			cycle_count = 0;
 			control_store_cl.setValue(0);
 			mir.reset();

@@ -28,6 +28,8 @@
  *
  */
 
+import it.sept.HumanSimulator;
+
 /**
  * Main memory module.  Stores program, constants, stack, constants.
  * Responds to all write/read/fetch requests.
@@ -45,7 +47,7 @@
  */
 public class MainMemory implements Mic1Constants
 {
-
+	private boolean auto_test = true;
 	private static final int STDIN = 0xffffff00;
 	private static final int STDOUT = 0xffffff00;
 	private byte memory[];
@@ -96,6 +98,9 @@ public class MainMemory implements Mic1Constants
 			if (address < 0)
 			{
 				mic1sim.stdout.append(String.valueOf((char) data)); //Scrive su stdout
+				if(auto_test)
+					HumanSimulator.setInput(String.valueOf((char) data));
+
 				if (mic1sim.debug)
 					DebugFrame.text.append("MEM: Out character " + (char) data + "\n");
 				write = false;
@@ -147,17 +152,37 @@ public class MainMemory implements Mic1Constants
 			{
 				if (mic1sim.debug)
 					DebugFrame.text.append("Memory waiting for key press...\n");
-				if (mic1sim.key_buffer.size() == 0)
+				if(auto_test)
 				{
-					if (mic1sim.debug)
-						DebugFrame.text.append("Key not pressed\n");
-					data = 0;
-				} else
+					if (HumanSimulator.key_buffer.size() == 0)
+					{
+						if (mic1sim.debug)
+							DebugFrame.text.append("Key not pressed\n");
+						data = 0;
+					} else
+					{
+						data = (Character) HumanSimulator.key_buffer.elementAt(0);
+						HumanSimulator.key_buffer.removeElementAt(0);
+
+						if (mic1sim.debug)
+							DebugFrame.text.append("Key pressed: " + (char) data + "\n");
+					}
+				}
+				else
 				{
-					data = (Character) mic1sim.key_buffer.elementAt(0);//Carattere letto
-					mic1sim.key_buffer.removeElementAt(0);
-					if (mic1sim.debug)
-						DebugFrame.text.append("Key pressed: " + (char) data + "\n");
+					if (mic1sim.key_buffer.size() == 0)
+					{
+						if (mic1sim.debug)
+							DebugFrame.text.append("Key not pressed\n");
+						data = 0;
+					} else
+					{
+						data = (Character) mic1sim.key_buffer.elementAt(0);
+						mic1sim.key_buffer.removeElementAt(0);
+
+						if (mic1sim.debug)
+							DebugFrame.text.append("Key pressed: " + (char) data + "\n");
+					}
 				}
 				word_data_bus.setValue(data);
 				mdr_cl.setValue(true_array);
