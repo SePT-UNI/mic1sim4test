@@ -52,12 +52,12 @@ public class RunThread extends Thread
 	{
 		while (sim.run)
 		{
-			try
+			/*try
 			{
 				sleep(1);
 			} catch (Exception e)
 			{
-			}
+			}*/
 			sim.cycle();
 		}
 		sim.stop();
