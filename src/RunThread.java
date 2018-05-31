@@ -58,6 +58,13 @@ public class RunThread extends Thread
 			} catch (Exception e)
 			{
 			}*/
+			/*try
+			{
+				sim.cycle();
+			}catch (Exception e)
+			{
+				e.printStackTrace();
+			}*/
 			sim.cycle();
 		}
 		sim.stop();

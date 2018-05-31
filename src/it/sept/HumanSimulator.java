@@ -26,8 +26,8 @@ public class HumanSimulator
 
 		String octal;
 		octal = String.format("%11s", Integer.toOctalString(randomNum)).replace(' ', '0');
-		System.out.println("Original number: " + randomNum);
-		System.out.println("Generated octal: " + octal);
+		/*System.out.println("Original number: " + randomNum);
+		System.out.println("Generated octal: " + octal);*/
 		return octal;
 	}
 
@@ -51,17 +51,17 @@ public class HumanSimulator
 
 		String octal;
 		octal = String.format("%11s", Integer.toOctalString(tmp)).replace(' ', '0');
-		System.out.println("Original number: " + tmp);
-		System.out.println("Generated octal: " + octal);
+		/*System.out.println("Original number: " + tmp);
+		System.out.println("Generated octal: " + octal);*/
 		return octal;
 	}
 
 	public static void setInput(String data)
 	{
 		readBuffer += data;
-		if (readBuffer.contains("Inserire il primo numero ottale (11 cifre):\n") || readBuffer.contains("Inserire il secondo numero ottale (11 cifre):\n"))
+		if (progress < 2 && (readBuffer.contains("Inserire il primo numero ottale (11 cifre):\n") || readBuffer.contains("Inserire il secondo numero ottale (11 cifre):\n")))
 		{
-			System.out.println("\n");
+			//System.out.println("\n");
 			String aa = randomIntToOctalString();//randomIntToOctalString();
 			for (int i = 0; i < 11; i++)
 			{
@@ -80,7 +80,7 @@ public class HumanSimulator
 		}else if (progress == 2 && readBuffer.contains("continuare:"))
 		{
 			risultato = readBuffer.substring(12, readBuffer.length());
-			repeat(risultato);
+			repeat(risultato.substring(0,31));
 			progress = 0;
 		}
 
@@ -91,10 +91,12 @@ public class HumanSimulator
 	{
 		if(testRisultato(risultato))
 		{
-			System.out.println("OK");
+			//System.out.println("OK");
 			key_buffer.add('1');
 			numSuccess++;
-			System.out.println("Success:" + numSuccess);
+			String n1Octal = String.format("%11s", Integer.toOctalString(n1)).replace(' ', '0');
+			String n2Octal = String.format("%11s", Integer.toOctalString(n2)).replace(' ', '0');
+			System.out.println("Test " + numSuccess + "\tN1: " + n1Octal + "("+n1+")" + "\tN2: " + n2Octal + "("+n2+")" + "\tRes: " + risultato);
 		}
 		else
 			System.out.println("ERROR");
