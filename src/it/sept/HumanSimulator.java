@@ -5,13 +5,17 @@ import java.util.Vector;
 
 public class HumanSimulator
 {
-	private static String readBuffer = "";
-	public static Vector key_buffer = new Vector();
-	private static int progress = 0;
-	private static int n1 = 0;
-	private static int n2 = 0;
-	private static int numSuccess = 0;
+	private static String readBuffer = ""; //Contiene i caratteri che vengono scritti con l'istruzione OUT sull'output dell'emulatore
+	public static Vector key_buffer = new Vector(); //Contiene la lista di tasti premuti dall'utente che il programma iJVM preleva con l'istruzione IN
 
+	private static int progress = 0; //Fase del programma iJVM
+	private static int n1 = 0; //Primo numero
+	private static int n2 = 0; //Secondo numero
+	private static int numSuccess = 0; //Numero di test che hanno dato esito positivo
+
+	/**
+	 * Metodo che genera un numero ottale casuale e assegna a n1 o n2(in base alla fase del programma) il numero generato
+	 */
 	private static String randomIntToOctalString()
 	{
 		int max = 2147483647;
@@ -24,48 +28,23 @@ public class HumanSimulator
 		else if (progress == 1)
 			n2 = randomNum;
 
-		String octal;
-		octal = String.format("%11s", Integer.toOctalString(randomNum)).replace(' ', '0');
-		/*System.out.println("Original number: " + randomNum);
-		System.out.println("Generated octal: " + octal);*/
+		String octal = String.format("%11s", Integer.toOctalString(randomNum)).replace(' ', '0');
 		return octal;
 	}
 
-	private static String randomNextIntToOctalString()
-	{
-		int max = 2147483647;
-		int min = 0;
-		Random random = new Random();
-		int randomNum = random.nextInt(100);
-		int tmp = 0;
-		if(progress == 0)
-		{
-			n1 += randomNum;
-			tmp = n1;
-		}
-		else if (progress == 1)
-		{
-			n2 += randomNum;
-			tmp = n2;
-		}
-
-		String octal;
-		octal = String.format("%11s", Integer.toOctalString(tmp)).replace(' ', '0');
-		/*System.out.println("Original number: " + tmp);
-		System.out.println("Generated octal: " + octal);*/
-		return octal;
-	}
-
+	/**
+	 * Metodo che viene chiamato quando viene eseguita un'istruzione OUT
+	 * Aggiunge i caratteri ricevuti al buffer ed esegue il test
+	 */
 	public static void setInput(String data)
 	{
 		readBuffer += data;
 		if (progress < 2 && (readBuffer.contains("Inserire il primo numero ottale (11 cifre):\n") || readBuffer.contains("Inserire il secondo numero ottale (11 cifre):\n")))
 		{
-			//System.out.println("\n");
-			String aa = randomIntToOctalString();//randomIntToOctalString();
+			String aa = randomIntToOctalString();
 			for (int i = 0; i < 11; i++)
 			{
-				key_buffer.add(aa.charAt(i));
+				key_buffer.add(aa.charAt(i)); //Scrive il numero in ottale un carattere alla volta
 			}
 			readBuffer = "";
 			progress++;
@@ -87,21 +66,29 @@ public class HumanSimulator
 
 	}
 
+	/**
+	 * Controlla se il risultato è giusto, in caso positivo prosegue e scrive sulla console il risultato del test
+	 * @param risultato
+	 */
 	private static void repeat(String risultato)
 	{
 		if(testRisultato(risultato))
 		{
-			//System.out.println("OK");
-			key_buffer.add('1');
+			key_buffer.add('1'); //Se il risultato è giusto preme 1 per continuare l'eseguzione del programma
 			numSuccess++;
 			String n1Octal = String.format("%11s", Integer.toOctalString(n1)).replace(' ', '0');
 			String n2Octal = String.format("%11s", Integer.toOctalString(n2)).replace(' ', '0');
 			System.out.println("Test " + numSuccess + "\tN1: " + n1Octal + "("+n1+")" + "\tN2: " + n2Octal + "("+n2+")" + "\tRes: " + risultato);
 		}
 		else
-			System.out.println("ERROR");
+			System.out.println("ERROR"); //Se il risultato è sbagliato non preme 1 e scrive ERROR, di conseguenza si ferma
 	}
 
+	/**
+	 * Testa il risultato prodotto dal programma iJVM confrontandolo con quello calcolato da java
+	 * @param risultato
+	 * @return
+	 */
 	static boolean testRisultato(String risultato)
 	{
 		//System.out.println("D: n1:"+n1+" n2:"+n2);

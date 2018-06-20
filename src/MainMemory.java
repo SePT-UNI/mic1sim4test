@@ -47,7 +47,7 @@ import it.sept.HumanSimulator;
  */
 public class MainMemory implements Mic1Constants
 {
-	private boolean auto_test = true;
+	private boolean auto_test = true; //Settare a true per abilitare i test automatici con la classe HumanSimulator
 	private static final int STDIN = 0xffffff00;
 	private static final int STDOUT = 0xffffff00;
 	private byte memory[];
@@ -99,7 +99,7 @@ public class MainMemory implements Mic1Constants
 			{
 				mic1sim.stdout.append(String.valueOf((char) data)); //Scrive su stdout
 				if(auto_test)
-					HumanSimulator.setInput(String.valueOf((char) data));
+					HumanSimulator.setInput(String.valueOf((char) data)); //Invia a HumanSimulator il carattere da scrivere in stdout
 
 				if (mic1sim.debug)
 					DebugFrame.text.append("MEM: Out character " + (char) data + "\n");
@@ -154,6 +154,9 @@ public class MainMemory implements Mic1Constants
 					DebugFrame.text.append("Memory waiting for key press...\n");
 				if(auto_test)
 				{
+					/*
+					Preleva i tasti premuti dalla classe HumanSimulator
+					 */
 					if (HumanSimulator.key_buffer.size() == 0)
 					{
 						if (mic1sim.debug)
